@@ -9,11 +9,20 @@ namespace NGitLab.Impl
         public readonly string APIToken;
         private readonly string _hostUrl;
         private const string APINamespace = "/api/v3";
+        public readonly string AccessToken;
 
-        public API(string hostUrl, string apiToken)
+        public API(string hostUrl, string apiToken, string accessToken)
         {
             _hostUrl = hostUrl.EndsWith("/") ? hostUrl.Replace("/$", "") : hostUrl;
-            APIToken = apiToken;
+
+            if (!String.IsNullOrEmpty(apiToken))
+            {
+                APIToken = apiToken;
+            }
+            else
+            {
+                AccessToken = accessToken;
+            }
         }
         
         public HttpRequestor Get()
@@ -41,6 +50,11 @@ namespace NGitLab.Impl
             if (APIToken != null)
             {
                 tailAPIUrl = tailAPIUrl + (tailAPIUrl.IndexOf('?') > 0 ? '&' : '?') + "private_token=" + APIToken;
+            }
+
+            if (AccessToken != null)
+            {
+                tailAPIUrl = tailAPIUrl + (tailAPIUrl.IndexOf('?') > 0 ? '&' : '?') + "access_token=" + AccessToken;
             }
 
             if (!tailAPIUrl.StartsWith("/"))

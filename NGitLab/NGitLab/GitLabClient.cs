@@ -4,18 +4,18 @@ namespace NGitLab
 {
     public class GitLabClient
     {
-        private GitLabClient(string hostUrl, string apiToken)
+        private GitLabClient(string hostUrl, string apiToken, string accessToken)
         {
-            _api = new API(hostUrl, apiToken);
+            _api = new API(hostUrl, apiToken, accessToken);
             Users = new UserClient(_api);
             Projects = new ProjectClient(_api);
             Issues = new IssueClient(_api);
             Groups = new NamespaceClient(_api);
         }
 
-        public static GitLabClient Connect(string hostUrl, string apiToken)
+        public static GitLabClient Connect(string hostUrl, string apiToken, string accessToke = null)
         {
-            return new GitLabClient(hostUrl, apiToken);
+            return new GitLabClient(hostUrl, apiToken, accessToke);
         }
 
         private readonly API _api;
