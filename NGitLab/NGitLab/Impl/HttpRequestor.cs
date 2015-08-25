@@ -137,7 +137,8 @@ namespace NGitLab.Impl
                         }
 
                         var request = SetupConnection(_nextUrlToLoad, MethodType.Get);
-                        request.Headers["PRIVATE-TOKEN"] = _apiToken;
+                        if(_apiToken != null)
+                            request.Headers["PRIVATE-TOKEN"] = _apiToken;
 
                         using (var response = request.GetResponse())
                         {
@@ -152,7 +153,22 @@ namespace NGitLab.Impl
 
                             if (nextLink != null)
                             {
-                                _nextUrlToLoad = new Uri(nextLink[0].Trim('<', '>', ' '));
+                                string acceessToken = null;
+                                if (_nextUrlToLoad.Query.Contains("access_token"))
+                                {
+                                    acceessToken = _nextUrlToLoad.Query.Split('?', '&').FirstOrDefault(x=>x.StartsWith("access_token"));
+                                }
+
+                                var nextUrlLink = nextLink[0].Trim('<', '>', ' ');
+
+                                if (String.IsNullOrEmpty(acceessToken))
+                                {
+                                    _nextUrlToLoad = new Uri(nextUrlLink);
+                                }
+                                else
+                                {
+                                    _nextUrlToLoad = new Uri(nextUrlLink + (nextUrlLink.Contains("?")? "&": "?") + acceessToken);
+                                }
                             }
                             else
                             {
