@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NGitLab.Models;
 
 namespace NGitLab.Impl
@@ -33,6 +34,14 @@ namespace NGitLab.Impl
             get
             {
                 return _api.Get().GetAll<Project>(Project.Url + "/all");
+            }
+        }
+
+        public IEnumerable<Project> this[string name]
+        {
+            get
+            {
+                return _api.Get().GetAll<Project>(Project.Url + "?search=" + name);
             }
         }
 

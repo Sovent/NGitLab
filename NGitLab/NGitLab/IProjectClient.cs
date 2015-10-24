@@ -20,7 +20,19 @@ namespace NGitLab
         /// </summary>
         IEnumerable<Project> All { get; }
 
+        /// <summary>
+        /// Get a project by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Project this[int id] { get; }
+
+        /// <summary>
+        /// Return a list of projects matching <paramref name="name"/>
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        IEnumerable<Project>this[string name] { get; }
 
         Project Create(ProjectCreate project);
         
