@@ -51,6 +51,10 @@ namespace NGitLab.Impl
             return _api.Get().GetAll<Diff>(_repoPath + "/commits/" + sha + "/diff");
         }
 
+        public Compare Compare(Sha1 from, Sha1 to) {
+            return _api.Get().To<Compare>(_repoPath + "/compare?from=" + from + "&to=" + to);
+        }
+
         public IFilesClient Files
         {
             get { return new FileClient(_api, _repoPath); }
