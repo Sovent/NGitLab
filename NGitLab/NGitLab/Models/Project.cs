@@ -53,6 +53,9 @@ namespace NGitLab.Models
         [DataMember(Name = "http_url_to_repo")]
         public string HttpUrl;
 
+        [DataMember(Name = "web_url")]
+        public string WebUrl;
+
         [DataMember(Name = "namespace")]
         public Namespace Namespace;
     }
