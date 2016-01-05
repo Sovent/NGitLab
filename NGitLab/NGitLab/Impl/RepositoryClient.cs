@@ -8,6 +8,7 @@ namespace NGitLab.Impl
     public class RepositoryClient : IRepositoryClient
     {
         private readonly API _api;
+        private readonly int _projectId;
         private readonly string _repoPath;
         private readonly string _projectPath;
 
@@ -15,13 +16,14 @@ namespace NGitLab.Impl
         {
             _api = api;
 
+            _projectId = projectId;
             _projectPath = Project.Url + "/" + projectId;
             _repoPath = _projectPath + "/repository";
         }
 
-        public IEnumerable<Tag> Tags
+        public ITagClient Tags
         {
-            get { return _api.Get().GetAll<Tag>(_repoPath + "/tags"); }
+            get { return new TagClient(_api, _repoPath); }
         }
 
         public IEnumerable<TreeOrBlob> Tree
