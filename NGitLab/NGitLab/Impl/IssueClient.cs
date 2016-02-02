@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NGitLab.Models;
 using System.Linq;
+using System;
 
 namespace NGitLab.Impl
 {
@@ -40,11 +41,14 @@ namespace NGitLab.Impl
             return _api.Post().With(issueCreate).To<Issue>(string.Format(ProjectIssuesUrl, issueCreate.Id));
         }
         
-        public Issue Edit(IssueEdit issueEdit)
+        public Issue Edit(int projectId, IssueEdit issueEdit)
         {
-            return _api.Put().With(issueEdit).To<Issue>(string.Format(SingleIssueUrl, issueEdit.Id, issueEdit.IssueId));
+            return _api.Put().With(issueEdit).To<Issue>(string.Format(SingleIssueUrl, projectId, issueEdit.Id));
         }
 
-        
+        public Issue GetByIid(int projectId, int iid)
+        {
+            return _api.Get().GetAll<Issue>(string.Format(ProjectIssuesUrl + "/?iid={1}", projectId, iid)).FirstOrDefault();
+        }
     }
 }

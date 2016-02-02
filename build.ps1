@@ -1,12 +1,12 @@
-Task default -Depends Compile, Pack
+Task default -Depends Compile, Tests
 
 properties {
   $path = ".\NGitLab\NGitLab.sln"
   $thisVersion = $version
 }
 
-Task Compile -Depends Clear, Restore {
-	msbuild $path /t:Build /p:Configuration=Release /verbosity:minimal
+Task Compile -Depends Restore {
+	msbuild $path /t:Build /p:Configuration=Debug /verbosity:minimal
 
 	if ($lastexitcode -ne 0) {
     	throw "Compilation failed"
@@ -14,7 +14,7 @@ Task Compile -Depends Clear, Restore {
 }
 
 Task Restore {
-	.\NuGet.exe restore $path
+	NuGet.exe restore $path
 }
 
 Task Clear {
@@ -26,10 +26,7 @@ Task Clear {
 Task Tests {
     # currently only with a running vm :( 
     # if you have an idea for a proper tests, please issue a pull request
-
-    if ($lastexitcode -ne 0) {
-        throw "Tests failed"
-    }
+	.\NGitLab\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe .\NGitLab\NGitLab.Tests\NGitLab.Tests.csproj /config=Debug /framework=4.6 /Output=foo.xml /trace=Verbose /timeout=10000
 }
 
 Task Pack {
@@ -49,7 +46,7 @@ Task Pack {
         $spec.Save($tempFile.FullName)
 
         # run packaging
-        .\NuGet.exe pack $tempFile.FullName -Verbosity normal
+        NuGet.exe pack $tempFile.FullName -Verbosity normal
         
         # remove temp nuspec
         ri $tempFile.FullName

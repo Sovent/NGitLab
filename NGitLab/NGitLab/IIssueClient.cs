@@ -27,6 +27,14 @@ namespace NGitLab
         Issue Get(int projectId, int issueId);
 
         /// <summary>
+        /// Return a single issue for a project using its iid
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="iid"></param>
+        /// <returns></returns>
+        Issue GetByIid(int projectId, int iid);
+
+        /// <summary>
         /// Add an issue witht he proposed title to the GitLab list for the selected proejct id.
         /// </summary>
         /// <param name="projectId"></param>
@@ -42,14 +50,8 @@ namespace NGitLab
         /// Edit and save an issue.
         /// </summary>
         /// <param name="projectId"></param>
-        /// <param name="issueId"></param>
-        /// <param name="title"></param>
-        /// <param name="description"></param>
-        /// <param name="assigneeId"></param>
-        /// <param name="milestoneId"></param>
-        /// <param name="labels"></param>
-        /// <param name="stateEvent"></param>
+        /// <param name="issueEdit"></param>
         /// <returns>The issue if it's updated.  Null if not.</returns>
-        Issue Edit(IssueEdit issueEdit);
+        Issue Edit(int projectId, IssueEdit issueEdit);
     }
 }
