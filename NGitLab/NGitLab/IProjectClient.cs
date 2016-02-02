@@ -37,5 +37,7 @@ namespace NGitLab
         Project Create(ProjectCreate project);
         
         bool Delete(int id);
+
+        IEnumerable<ProjectMember> GetMembers(int id);
     }
 }

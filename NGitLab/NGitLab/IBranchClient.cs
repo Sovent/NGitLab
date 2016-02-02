@@ -11,5 +11,7 @@ namespace NGitLab
         Branch Unprotect(string name);
         Branch Create(BranchCreate branch);
         BranchRemovalStatus Delete(string name);
+        IEnumerable<Commit> GetCommits(string branch);
+        Commit GetHeadCommit(string branch);
     }
 }

@@ -6,6 +6,8 @@ namespace NGitLab.Impl
 {
     public class ProjectClient : IProjectClient
     {
+        private const string MembersUrl = "/projects/{0}/members";
+
         private readonly API _api;
 
         public ProjectClient(API api)
@@ -61,6 +63,10 @@ namespace NGitLab.Impl
         public bool Delete(int id)
         {
             return _api.Delete().To<bool>(Project.Url + "/" + id);
+        }
+
+        public IEnumerable<ProjectMember> GetMembers(int id) {
+            return _api.Get().GetAll<ProjectMember>(string.Format(MembersUrl, id));
         }
     }
 }

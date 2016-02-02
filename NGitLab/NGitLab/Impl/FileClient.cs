@@ -4,6 +4,8 @@ namespace NGitLab.Impl
 {
     public class FileClient : IFilesClient
     {
+        private const string FilesUrl = "/files?file_path={0}&ref={1}";
+        
         private readonly API _api;
         private readonly string _repoPath;
 
@@ -26,6 +28,10 @@ namespace NGitLab.Impl
         public void Delete(FileDelete file)
         {
             _api.Delete().With(file).Stream(_repoPath + "/files", s => { });
+        }
+
+        public FileData Get(FileGet file) {
+            return _api.Get().To<FileData>(_repoPath + string.Format(FilesUrl, file.Path, file.Ref));
         }
     }
 }
