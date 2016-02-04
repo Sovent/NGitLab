@@ -1,4 +1,5 @@
-﻿using NGitLab.Impl;
+﻿using System.Security.Policy;
+using NGitLab.Impl;
 
 namespace NGitLab
 {
@@ -12,6 +13,7 @@ namespace NGitLab
             Issues = new IssueClient(_api);
             Groups = new NamespaceClient(_api);
             Labels = new LabelClient(_api);
+            ProjectMembers = new ProjectMembersClient(_api);
         }
 
         public static GitLabClient Connect(string hostUrl, string apiToken, string accessToke = null)
@@ -26,6 +28,7 @@ namespace NGitLab
         public readonly IIssueClient Issues;
         public readonly INamespaceClient Groups;
         public readonly ILabelClient Labels;
+        public readonly IProjectMembersClient ProjectMembers;
 
         public IRepositoryClient GetRepository(int projectId)
         {
