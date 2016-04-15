@@ -48,5 +48,8 @@ namespace NGitLab.Models
 
         [DataMember(Name = "can_create_group")]
         public bool CanCreateGroup;
+
+        [DataMember(Name="confirm")]
+        public string Confirm;
     }
 }

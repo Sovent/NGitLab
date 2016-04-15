@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Impl
 {
@@ -38,7 +39,7 @@ namespace NGitLab.Impl
         public T To<T>(string tailAPIUrl)
         {
             var result = default(T);
-            Stream(tailAPIUrl, s => result = SimpleJson.DeserializeObject<T>(new StreamReader(s).ReadToEnd()));
+            Stream(tailAPIUrl, s => result = JsonConvert.DeserializeObject<T>(new StreamReader(s).ReadToEnd()));
             return result;
         }
 
@@ -74,7 +75,7 @@ namespace NGitLab.Impl
                         using (var reader = new StreamReader(errorResponse.GetResponseStream()))
                         {
                             string jsonString = reader.ReadToEnd();
-                            var jsonError = SimpleJson.DeserializeObject<JsonError>(jsonString);
+                            var jsonError = JsonConvert.DeserializeObject<JsonError>(jsonString);
                             throw new Exception(string.Format("The remote server returned an error ({0}): {1}", errorResponse.StatusCode, jsonError.Message));
                         }
                     }
@@ -176,7 +177,7 @@ namespace NGitLab.Impl
                             }
 
                             var stream = response.GetResponseStream();
-                            _buffer.AddRange(SimpleJson.DeserializeObject<T[]>(new StreamReader(stream).ReadToEnd()));
+                            _buffer.AddRange(JsonConvert.DeserializeObject<T[]>(new StreamReader(stream).ReadToEnd()));
                         }
 
                         return _buffer.Count > 0;
@@ -217,7 +218,7 @@ namespace NGitLab.Impl
 
             using (var writer = new StreamWriter(request.GetRequestStream()))
             {
-                var data = SimpleJson.SerializeObject(_data);
+                var data = JsonConvert.SerializeObject(_data);
                 writer.Write(data);
                 writer.Flush();
                 writer.Close();
