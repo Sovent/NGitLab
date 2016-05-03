@@ -35,7 +35,9 @@ namespace NGitLab
         IEnumerable<Project>this[string name] { get; }
 
         Project Create(ProjectCreate project);
-        
+
+        Project Update(ProjectUpdate project);
+
         bool Delete(int id);
     }
 }
